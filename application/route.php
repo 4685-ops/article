@@ -9,13 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-return [
-    '__pattern__' => [
-        'name' => '\w+',
-    ],
-    '[hello]' => [
-        ':id' => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
+use think\Route;
 
-];
+// 定义GET请求路由规则
+Route::get('banner/getBannerItemInfoByBannerId/:id','api/v1.Banner/getBannerItemInfoByBannerId');

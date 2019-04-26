@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -14,6 +14,8 @@ return [
     // | 应用设置
     // +----------------------------------------------------------------------
 
+    // 应用命名空间
+    'app_namespace'          => 'app',
     // 应用调试模式
     'app_debug'              => true,
     // 应用Trace
@@ -92,8 +94,6 @@ return [
     'route_complete_match'   => false,
     // 路由配置文件（支持配置多个）
     'route_config_file'      => ['route'],
-    // 是否开启路由解析缓存
-    'route_check_cache'      => false,
     // 是否强制使用路由
     'url_route_must'         => false,
     // 域名部署
@@ -114,8 +114,6 @@ return [
     'request_cache'          => false,
     // 请求缓存有效期
     'request_cache_expire'   => null,
-    // 全局请求缓存排除规则
-    'request_cache_except'   => [],
 
     // +----------------------------------------------------------------------
     // | 模板设置
@@ -124,8 +122,6 @@ return [
     'template'               => [
         // 模板引擎类型 支持 php think 支持扩展
         'type'         => 'Think',
-        // 默认模板渲染规则 1 解析为小写+下划线 2 全部转换小写
-        'auto_rule'    => 1,
         // 模板路径
         'view_path'    => '',
         // 模板后缀
@@ -160,7 +156,7 @@ return [
     // 显示错误信息
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => '',
+    'exception_handle'       => 'app\lib\exception\ExceptionHandle',
 
     // +----------------------------------------------------------------------
     // | 日志设置
@@ -170,7 +166,7 @@ return [
         // 日志记录方式，内置 file socket 支持扩展
         'type'  => 'File',
         // 日志保存目录
-        'path'  => LOG_PATH,
+         'path'  => __DIR__.'/../log/',
         // 日志记录级别
         'level' => [],
     ],
