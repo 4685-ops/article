@@ -46,11 +46,32 @@ class BaseValidate extends Validate
      *
      * @date 2019/4/26 9:00
      */
-    protected function isPositiveInteger($value, $rule='', $data='', $field='')
+    protected function isPositiveInteger($value, $rule = '', $data = '', $field = '')
     {
         if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
             return true;
         }
         return $field . '必须是正整数';
+    }
+
+    /**
+     * @function   isNotEmpty   判断某个变量是否为空
+     *
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $field
+     * @return bool|string
+     * @author admin
+     *
+     * @date 2019/4/28 13:26
+     */
+    protected function isNotEmpty($value, $rule = '', $data = '', $field = '')
+    {
+        if (empty($value)) {
+            return $field . '不允许为空';
+        } else {
+            return true;
+        }
     }
 }

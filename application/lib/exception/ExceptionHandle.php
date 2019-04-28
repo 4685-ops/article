@@ -26,7 +26,7 @@ class ExceptionHandle extends Handle
      * @author admin
      *
      * @date 2019/4/26 10:03
-     */
+     */ 
     public function render(Exception $e)
     {
 

@@ -13,3 +13,5 @@ use think\Route;
 
 // 定义GET请求路由规则
 Route::get('banner/getBannerItemInfoByBannerId/:id','api/v1.Banner/getBannerItemInfoByBannerId');
+Route::get('token/getToken/:code','api/v1.Token/getToken');
+
