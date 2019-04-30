@@ -26,8 +26,8 @@ class ExceptionHandle extends Handle
      * @author admin
      *
      * @date 2019/4/26 10:03
-     */ 
-    public function render(Exception $e)
+     */
+    public function render(\Exception $e)
     {
 
         if ($e instanceof BaseException) {
@@ -67,7 +67,7 @@ class ExceptionHandle extends Handle
      *
      * @date 2019/4/26 10:01
      */
-    private function recordErrorLog(Exception $e)
+    private function recordErrorLog(\Exception $e)
     {
 
         Log::init([

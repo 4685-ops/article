@@ -16,4 +16,6 @@ class BannerItem extends BaseModel
          */
         return $this->belongsTo('Image', 'img_id', 'id');
     }
+
+
 }

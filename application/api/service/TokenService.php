@@ -5,6 +5,7 @@ namespace app\api\service;
 
 
 use app\api\model\User;
+use app\lib\exception\ParameterException;
 use app\lib\exception\WeChatException;
 use think\Cache;
 use think\Exception;
@@ -69,6 +70,7 @@ class TokenService
             $userId = $userInfo->user_id;
         }
 
+
         //发布令牌
         $cacheData = $this->prepareCachedValue($result, $userId);
 
@@ -80,13 +82,12 @@ class TokenService
     public function getSuccessToken($wxResult)
     {
         $key = Token::generateToken($wxResult);
-        $expire_in = config('wx.token_expire_in');
-        $wxResult['token_expire_in'] = $expire_in;
+        $wxResult['token_expire_in'] = config('wx.token_expire_in');
+        $wxResult['currentTime'] = time();
 
-        $value = json_encode($wxResult);
+        $online = RedisHash::instance()->setHashKey("loginToken:writeToken");
 
-        //写到redis里面
-        $result = Cache::store('redis')->set($key, $value);
+        $result = $online->set($key, serialize($wxResult));
 
         if (!$result) {
             throw new TokenException([
@@ -114,5 +115,52 @@ class TokenService
         $user = User::create($data);
 
         return $data['user_id'];
+    }
+
+    /**
+     * @function   getVerifyToken   这个方法既可以用来检测token是否正确 也可以获取用户信息
+     *
+     * 调用方法 TokenService::getVerifyToken($token); //token 必须传递
+     *
+     * @param $token
+     * @return mixed
+     * @throws ParameterException
+     * @author admin
+     *
+     * @date 2019/4/29 11:19
+     */
+    public static function getVerifyToken($token)
+    {
+        $online = RedisHash::instance()->setHashKey("loginToken:writeToken");
+
+        $result = $online->get($token);
+
+        //判断传入的token是否存在
+        if (empty($result)) {
+            throw new ParameterException([
+                'msg' => 'token都不对，还想来获取用户信息'
+            ]);
+        }
+
+        //检查是否过期
+        $userInfo = unserialize($result);
+
+        if (time()-$userInfo['currentTime'] >= 7200) {
+            throw new ParameterException([
+                'msg' => 'token已过期，请重新获取'
+            ]);
+        }
+
+        //判断一下 uid 和 openid是否存在
+        if (empty($userInfo['uid']) || empty($userInfo['openid'])) {
+            throw new ParameterException([
+                'msg' => 'token已过期，请重新获取'
+            ]);
+        }
+
+        unset($userInfo['session_key']);
+        $userInfo['flag'] = true;
+
+        return $userInfo;
     }
 }

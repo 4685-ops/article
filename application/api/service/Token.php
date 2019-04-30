@@ -14,4 +14,6 @@ class Token
         $tokenSalt = config('wx.token_salt');
         return md5($randChar . $timestamp . $tokenSalt);
     }
+
+
 }
