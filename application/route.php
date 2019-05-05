@@ -17,3 +17,5 @@ Route::get('token/getToken/:code','api/v1.Token/getToken');
 Route::post('token/getVerifyToken','api/v1.Token/getVerifyToken');
 
 
+Route::get('generalExcel','api/v1.Excel/generalExcel');
+
