@@ -34,7 +34,7 @@ Route::get('api/:version/theme/getThemeInfoByThemeId/:id', 'api/v1.Theme/getThem
 
 Route::get('api/:version/product/getRecentGoods', 'api/v1.Product/getRecentGoods');
 Route::get('api/:version/product/getCategoryDataByCategoryId/:id', 'api/v1.Product/getCategoryDataByCategoryId');
-
+Route::get('api/:version/product/getProductInfoByProductId', 'api/v1.Product/getProductInfoByProductId');
 
 
 /**

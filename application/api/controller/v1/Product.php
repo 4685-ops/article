@@ -50,23 +50,48 @@ class Product extends Controller
      * @example  http://local.article.com/api/v1/product/getCategoryDataByCategoryId/1
      *
      * @param $id
+     * @return \think\response\Json
+     * @throws CategoryException
      * @throws \app\lib\exception\ParameterException
      * @author admin
      *
-     * @date 2019/5/4
+     * @date 2019/5/6 9:18
      */
     public function getCategoryDataByCategoryId($id)
     {
         (new IDMustBePositiveInt())->goCheck();
 
-        $categoryData  = productModel::getCategoryDataByCategoryId($id);
+        $categoryData = productModel::getCategoryDataByCategoryId($id);
 
-        if($categoryData->isEmpty()){
+        if ($categoryData->isEmpty()) {
             throw new CategoryException();
         }
 
         return json($categoryData->hidden(['summary']));
-
     }
 
+    /**
+     * @function   getProductInfoByProductId
+     *
+     * @example    http://local.article.com/api/v1/product/getProductInfoByProductId?id=11
+     *
+     * @param $id
+     * @return \think\response\Json
+     * @throws ProductException
+     * @throws \app\lib\exception\ParameterException
+     * @author admin
+     *
+     * @date 2019/5/6 9:58
+     */
+    public function getProductInfoByProductId($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+        $productInfo = productModel::getProductInfoByProductId($id);
+
+        if ($productInfo->isEmpty()) {
+            throw new ProductException();
+        }
+
+        return json($productInfo->hidden(['summary']));
+    }
 }
