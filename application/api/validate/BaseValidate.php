@@ -51,7 +51,7 @@ class BaseValidate extends Validate
         if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
             return true;
         }
-        return $field . '必须是正整数';
+        return false;
     }
 
     /**
@@ -69,7 +69,7 @@ class BaseValidate extends Validate
     protected function isNotEmpty($value, $rule = '', $data = '', $field = '')
     {
         if (empty($value)) {
-            return $field . '不允许为空';
+            return false;
         } else {
             return true;
         }

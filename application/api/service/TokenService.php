@@ -85,6 +85,7 @@ class TokenService
         $wxResult['token_expire_in'] = config('wx.token_expire_in');
         $wxResult['currentTime'] = time();
 
+
         $online = RedisHash::instance()->setHashKey("loginToken:writeToken");
 
         $result = $online->set($key, serialize($wxResult));
@@ -102,7 +103,7 @@ class TokenService
     {
         $cacheValue = $result;
         $cacheValue['uid'] = $userId;
-
+        $cacheValue['scope'] = 16;
         return $cacheValue;
     }
 

@@ -18,5 +18,6 @@ return [
     'access_token_url' => "https://api.weixin.qq.com/cgi-bin/token?" .
         "grant_type=client_credential&appid=%s&secret=%s",
     'token_salt' => "!@#$%^&*WERTYUIOADFzcxzdawq12312212",
-    "token_expire_in" =>7200
+    "token_expire_in" =>7200,
+    "img_prefix"=>'http://local.article.com'
 ];

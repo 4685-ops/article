@@ -12,10 +12,32 @@
 use think\Route;
 
 // 定义GET请求路由规则
-Route::get('banner/getBannerItemInfoByBannerId/:id','api/v1.Banner/getBannerItemInfoByBannerId');
-Route::get('token/getToken/:code','api/v1.Token/getToken');
-Route::post('token/getVerifyToken','api/v1.Token/getVerifyToken');
 
 
-Route::get('generalExcel','api/v1.Excel/generalExcel');
+/**
+ *  banner 相关的接口
+ */
+Route::get('api/:version/banner/getBannerItemInfoByBannerId/:id', 'api/v1.Banner/getBannerItemInfoByBannerId');
 
+Route::get('api/:version/token/getToken/:code', 'api/v1.Token/getToken');
+Route::post('api/:version/token/getVerifyToken', 'api/v1.Token/getVerifyToken');
+
+/**
+ * 主题相关的接口
+ */
+Route::get('api/:version/theme/getThemeByIds', 'api/v1.Theme/getThemeByIds');
+Route::get('api/:version/theme/getThemeInfoByThemeId/:id', 'api/v1.Theme/getThemeInfoByThemeId');
+
+/**
+ *  商品相关的接口
+ */
+
+Route::get('api/:version/product/getRecentGoods', 'api/v1.Product/getRecentGoods');
+Route::get('api/:version/product/getCategoryDataByCategoryId/:id', 'api/v1.Product/getCategoryDataByCategoryId');
+
+
+
+/**
+ * 分类相关的接口
+ */
+Route::get('api/:version/category/getAllCategory', 'api/v1.Category/getAllCategory');
