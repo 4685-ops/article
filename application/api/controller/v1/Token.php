@@ -58,6 +58,17 @@ class Token extends Controller
 
     }
 
+    /**
+     * @function   successData  返回成功的json格式数据
+     *
+     * @param int $errorCode
+     * @param array $data
+     * @param string $msg
+     * @return \think\response\Json
+     * @author admin
+     *
+     * @date 2019/5/6 10:52
+     */
     public function successData($errorCode = 200, $data = [], $msg = '')
     {
         $data = [

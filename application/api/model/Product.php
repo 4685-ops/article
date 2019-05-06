@@ -39,8 +39,6 @@ class Product extends BaseModel
         return self::where('category_id', '=', $categoryId)->select();
     }
 
-
-
     public static function getProductInfoByProductId($id)
     {
         return self::with(['imgs'=>function($query){

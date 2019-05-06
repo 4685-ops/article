@@ -9,6 +9,7 @@ use app\lib\exception\ParameterException;
 use app\lib\exception\WeChatException;
 use think\Cache;
 use think\Exception;
+use think\Request;
 
 class TokenService
 {
@@ -85,7 +86,6 @@ class TokenService
         $wxResult['token_expire_in'] = config('wx.token_expire_in');
         $wxResult['currentTime'] = time();
 
-
         $online = RedisHash::instance()->setHashKey("loginToken:writeToken");
 
         $result = $online->set($key, serialize($wxResult));
@@ -146,7 +146,7 @@ class TokenService
         //检查是否过期
         $userInfo = unserialize($result);
 
-        if (time()-$userInfo['currentTime'] >= 7200) {
+        if (time() - $userInfo['currentTime'] >= 7200) {
             throw new ParameterException([
                 'msg' => 'token已过期，请重新获取'
             ]);
@@ -163,5 +163,20 @@ class TokenService
         $userInfo['flag'] = true;
 
         return $userInfo;
+    }
+
+    protected static function getUserInfoByVar($param)
+    {
+        $token = Request::instance()->header('token');
+        $userInfo = self::getVerifyToken($token);
+
+        return $userInfo[$param];
+    }
+
+    public static function getCurrentUidByToken()
+    {
+        $uid = self::getUserInfoByVar('uid');
+
+        return $uid;
     }
 }

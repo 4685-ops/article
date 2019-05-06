@@ -19,15 +19,15 @@ use app\api\model\Product as productModel;
 class Product extends Controller
 {
     /**
-     * @function   getRecentGoods  获取最近的商品
+     * @function    getRecentGoods  获取最近的商品
      *
-     * @example  http://local.article.com/api/v1/product/getRecentGoods?count=15
+     * @example     http://local.article.com/api/v1/product/getRecentGoods?count=15
      *
-     * @param int $count
-     * @return string|\think\response\Json
-     * @throws ProductException
-     * @throws \app\lib\exception\ParameterException
-     * @author admin
+     * @param       int $count
+     * @return      string|\think\response\Json
+     * @throws      ProductException
+     * @throws      \app\lib\exception\ParameterException
+     * @author      admin
      *
      * @date 2019/5/4
      */
@@ -45,15 +45,15 @@ class Product extends Controller
     }
 
     /**
-     * @function   getCategoryDataByCategoryId
+     * @function    getCategoryDataByCategoryId  得到一个分类下面的所有商品
      *
-     * @example  http://local.article.com/api/v1/product/getCategoryDataByCategoryId/1
+     * @example     http://local.article.com/api/v1/product/getCategoryDataByCategoryId/1
      *
-     * @param $id
-     * @return \think\response\Json
-     * @throws CategoryException
-     * @throws \app\lib\exception\ParameterException
-     * @author admin
+     * @param       $id
+     * @return      \think\response\Json
+     * @throws      CategoryException
+     * @throws      \app\lib\exception\ParameterException
+     * @author      admin
      *
      * @date 2019/5/6 9:18
      */
@@ -71,17 +71,17 @@ class Product extends Controller
     }
 
     /**
-     * @function   getProductInfoByProductId
+     * @function    getProductInfoByProductId    得到商品id去获取食品详情
      *
-     * @example    http://local.article.com/api/v1/product/getProductInfoByProductId?id=11
+     * @example     http://local.article.com/api/v1/product/getProductInfoByProductId?id=11
      *
-     * @param $id
-     * @return \think\response\Json
-     * @throws ProductException
-     * @throws \app\lib\exception\ParameterException
-     * @author admin
+     * @param       $id
+     * @return      \think\response\Json
+     * @throws      ProductException
+     * @throws      \app\lib\exception\ParameterException
+     * @author      admin
      *
-     * @date 2019/5/6 9:58
+     * @date        2019/5/6 9:58
      */
     public function getProductInfoByProductId($id)
     {

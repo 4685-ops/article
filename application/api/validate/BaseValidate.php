@@ -55,16 +55,16 @@ class BaseValidate extends Validate
     }
 
     /**
-     * @function   isNotEmpty   判断某个变量是否为空
+     * @function    isNotEmpty   判断某个变量是否为空
      *
-     * @param $value
+     * @param       $value
      * @param string $rule
      * @param string $data
      * @param string $field
-     * @return bool|string
-     * @author admin
+     * @return      bool|string
+     * @author      admin
      *
-     * @date 2019/4/28 13:26
+     * @date        2019/4/28 13:26
      */
     protected function isNotEmpty($value, $rule = '', $data = '', $field = '')
     {
@@ -73,5 +73,50 @@ class BaseValidate extends Validate
         } else {
             return true;
         }
+    }
+
+    /**
+     * @function   isMustMobile 判断一个字符串是不是手机号码
+     *
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $field
+     * @return bool
+     * @author admin
+     *
+     * @date 2019/5/6 15:04
+     */
+    protected function isMustMobile($value, $rule = '', $data = '', $field = '')
+    {
+        if (!preg_match("/(13[0-9]|15[01235789]|17[0-9]|14[0-9]|18[09])(\d|[0-9]){8}$/", $value))
+            return false;
+        return true;
+    }
+
+    /**
+     * @function   getDataByRule    得到验证器里面规定的字段数据
+     *
+     * @param $data
+     * @return array
+     * @throws ParameterException
+     * @author admin
+     *
+     * @date 2019/5/6 17:05
+     */
+    public function getDataByRule($data)
+    {
+        $returnArray = [];
+        if (array_key_exists('uid', $data) || array_key_exists('user_id', $data)) {
+            throw new ParameterException([
+                'msg' => '参数中包含有非法的参数名user_id或者uid'
+            ]);
+        } else {
+            foreach ($this->rule as $key => $val) {
+                $returnArray [$key] = $data[$key];
+            }
+        }
+
+        return $returnArray;
     }
 }

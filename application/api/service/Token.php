@@ -15,5 +15,4 @@ class Token
         return md5($randChar . $timestamp . $tokenSalt);
     }
 
-
 }

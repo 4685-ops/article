@@ -41,3 +41,11 @@ Route::get('api/:version/product/getProductInfoByProductId', 'api/v1.Product/get
  * 分类相关的接口
  */
 Route::get('api/:version/category/getAllCategory', 'api/v1.Category/getAllCategory');
+
+
+/**
+ * 地址相关的接口
+ */
+
+Route::post('api/:version/address/createUserAddress', 'api/v1.Address/createUserAddress');
+

@@ -12,7 +12,7 @@ use app\api\model\Theme as themeModel;
 class Theme extends Controller
 {
     /**
-     * @function   getThemeByIds
+     * @function   getThemeByIds    得到所有的主题信息
      *
      * http://xxx.domain.com/api/v1/Theme/getThemeByIds/ids/1,3,5
      *
@@ -43,7 +43,7 @@ class Theme extends Controller
     }
 
     /**
-     * @function   getThemeInfoByThemeId
+     * @function   getThemeInfoByThemeId  得到单个主题下面的所有数据
      *
      * @param string $id
      * @return string|\think\response\Json
@@ -60,6 +60,5 @@ class Theme extends Controller
         $data = themeModel::getThemeInfoByThemeId($id);
 
         return json($data);
-
     }
 }

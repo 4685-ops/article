@@ -17,7 +17,7 @@ use app\api\model\Category as categoryModel;
 class Category extends Controller
 {
     /**
-     * @function   getAllCategory
+     * @function   getAllCategory   得到所有的分类信息
      *
      * @example  http://local.article.com/api/v1/category/getAllCategory
      *
