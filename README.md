@@ -1,129 +1,236 @@
-ThinkPHP 5.0
-===============
+1.tp5 多模块使用
+	1.早application目录 按照index目录创建
+		访问  域名/public/index.php/创建的模块名/控制器名/方法名xu
 
-[![Total Downloads](https://poser.pugx.org/topthink/think/downloads)](https://packagist.org/packages/topthink/think)
-[![Latest Stable Version](https://poser.pugx.org/topthink/think/v/stable)](https://packagist.org/packages/topthink/think)
-[![Latest Unstable Version](https://poser.pugx.org/topthink/think/v/unstable)](https://packagist.org/packages/topthink/think)
-[![License](https://poser.pugx.org/topthink/think/license)](https://packagist.org/packages/topthink/think)
+2.虚拟域名的配置
+	
+3.三种url访问模式 （默认是混合的）
+    开启全集匹配
+        route_complete_match 设为true
+	路由实例 
+	要 引入use think\Route; 这个类
+	//这个表示 域名/test  ==> 域名/sample/Test/index访问
+	Route::rule('test','sample/Test/index');
 
-ThinkPHP5在保持快速开发和大道至简的核心理念不变的同时，PHP版本要求提升到5.4，对已有的CBD模式做了更深的强化，优化核心，减少依赖，基于全新的架构思想和命名空间实现，是ThinkPHP突破原有框架思路的颠覆之作，其主要特性包括：
 
- + 基于命名空间和众多PHP新特性
- + 核心功能组件化
- + 强化路由功能
- + 更灵活的控制器
- + 重构的模型和数据库类
- + 配置文件可分离
- + 重写的自动验证和完成
- + 简化扩展机制
- + API支持完善
- + 改进的Log类
- + 命令行访问支持
- + REST支持
- + 引导文件支持
- + 方便的自动生成定义
- + 真正惰性加载
- + 分布式环境支持
- + 更多的社交类库
+	path_info 模式
 
-> ThinkPHP5的运行环境要求PHP5.4以上。
+	路由模式 
 
-详细开发文档参考 [ThinkPHP5完全开发手册](http://www.kancloud.cn/manual/thinkphp5)
+	强制路由 参数	url_route_must  设置为true 强制使用路由
 
-## 目录结构
+4.定义路由
+	Route::rule('路由表达式','路由地址','请求类型','路由参数（数组）','变量规则（数组）');
+	
+	请求类型 ： get post delete ....
+			Route::rule('test','sample/Test/index','GET'); //只允许get请求
+			或
+			Route::get('test','sample/Test/index');
+			Route::pos('test','sample/Test/index');
 
-初始的目录结构如下：
+			Route::rule('test','sample/Test/index','GET|POST'); //只允许get,post请求
 
-~~~
-www  WEB部署目录（或者子目录）
-├─application           应用目录
-│  ├─common             公共模块目录（可以更改）
-│  ├─module_name        模块目录
-│  │  ├─config.php      模块配置文件
-│  │  ├─common.php      模块函数文件
-│  │  ├─controller      控制器目录
-│  │  ├─model           模型目录
-│  │  ├─view            视图目录
-│  │  └─ ...            更多类库目录
-│  │
-│  ├─command.php        命令行工具配置文件
-│  ├─common.php         公共函数文件
-│  ├─config.php         公共配置文件
-│  ├─route.php          路由配置文件
-│  ├─tags.php           应用行为扩展定义文件
-│  └─database.php       数据库配置文件
-│
-├─public                WEB目录（对外访问目录）
-│  ├─index.php          入口文件
-│  ├─router.php         快速测试文件
-│  └─.htaccess          用于apache的重写
-│
-├─thinkphp              框架系统目录
-│  ├─lang               语言文件目录
-│  ├─library            框架类库目录
-│  │  ├─think           Think类库包目录
-│  │  └─traits          系统Trait目录
-│  │
-│  ├─tpl                系统模板目录
-│  ├─base.php           基础定义文件
-│  ├─console.php        控制台入口文件
-│  ├─convention.php     框架惯例配置文件
-│  ├─helper.php         助手函数文件
-│  ├─phpunit.xml        phpunit配置文件
-│  └─start.php          框架入口文件
-│
-├─extend                扩展类库目录
-├─runtime               应用的运行时目录（可写，可定制）
-├─vendor                第三方类库目录（Composer依赖库）
-├─build.php             自动生成定义文件（参考）
-├─composer.json         composer 定义文件
-├─LICENSE.txt           授权说明文件
-├─README.md             README 文件
-├─think                 命令行入口文件
-~~~
 
-> router.php用于php自带webserver支持，可用于快速测试
-> 切换到public目录后，启动命令：php -S localhost:8888  router.php
-> 上面的目录结构和名称是可以改变的，这取决于你的入口文件和配置参数。
+	路由参数（数组）:https://www.kancloud.cn/manual/thinkphp5/118034
+			Route::rule('test','sample/Test/index','GET',['https'=>true]); //只允许get请求
 
-## 命名规范
+	参数的获取
+		//没有的参数用?传递
+		域名/test/123?name=zhangsan&age=99 //id是123
+			Route::get('test/:id','sample/Test/index');
 
-`ThinkPHP5`遵循PSR-2命名规范和PSR-4自动加载规范，并且注意如下规范：
+			Route::post('test/:id','sample/Test/index');
 
-### 目录和文件
+		获取参数 https://www.kancloud.cn/manual/thinkphp5/118044
+			使用类 Requset
+			use think\Request;
 
-*   目录不强制规范，驼峰和小写+下划线模式均支持；
-*   类库、函数文件统一以`.php`为后缀；
-*   类的文件名均以命名空间定义，并且命名空间的路径和类库文件所在路径一致；
-*   类名和类文件名保持一致，统一采用驼峰法命名（首字母大写）；
+			获取所有的参数
+				Request::instance()->param();
 
-### 函数和类、属性命名
-*   类的命名采用驼峰法，并且首字母大写，例如 `User`、`UserType`，默认不需要添加后缀，例如`UserController`应该直接命名为`User`；
-*   函数的命名使用小写字母和下划线（小写字母开头）的方式，例如 `get_client_ip`；
-*   方法的命名使用驼峰法，并且首字母小写，例如 `getUserName`；
-*   属性的命名使用驼峰法，并且首字母小写，例如 `tableName`、`instance`；
-*   以双下划线“__”打头的函数或方法作为魔法方法，例如 `__call` 和 `__autoload`；
+			获取路由中的参数
+				Request::instance()->route();
+			获取? get后面的参数
+				Request::instance()->get();	
+		//对于这种做法是 很好的
+		public function index(Request $request)
+    	{
+        	return 'Hello world';
+    	}
+5.  validate
+		要用 validate 就要use think\Validate
+		独立验证
 
-### 常量和配置
-*   常量以大写字母和下划线命名，例如 `APP_PATH`和 `THINK_PATH`；
-*   配置参数以小写字母和下划线命名，例如 `url_route_on` 和`url_convert`；
+			$data = [
+			    'name'  => 'thinkphp',
+			    'email' => 'thinkphp@qq.com'
+			];
 
-### 数据表和字段
-*   数据表和字段采用小写加下划线方式命名，并注意字段名不要以下划线开头，例如 `think_user` 表和 `user_name`字段，不建议使用驼峰和中文作为数据表字段命名。
+			
+			$validate = new Validate([
+			    'name'  => 'require|max:25',
+			    'email' => 'email'
+			]);
 
-## 参与开发
-请参阅 [ThinkPHP5 核心框架包](https://github.com/top-think/framework)。
+			//batch 批量验证
+			if (!$validate->batch()->check($data)) {
+			    dump($validate->getError());
+			}
 
-## 版权信息
+		验证器
+			use think\Loader;
 
-ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
+			class TestValidate extends Validate
 
-本项目包含的第三方源码和二进制文件之版权信息另行标注。
+			$validate = Loader::validate('TestValidate');
 
-版权所有Copyright © 2006-2017 by ThinkPHP (http://thinkphp.cn)
+			if(!$validate->check($data)){
+			    dump($validate->getError());
+			}
 
-All rights reserved。
+6.REST
 
-ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
+7.异常处理
+    try {
+            BannerModel::getBannerById($id);
+        } catch (Exception $ex) {
+            $ex = [
+                'code' => '10001',
+                'msg' => $ex->getMessage()
+            ];
 
-更多细节参阅 [LICENSE.txt](LICENSE.txt)
+            //返回json数据 并http的状态是400
+            return json($ex, 400);
+        }
+
+    2.自定义 异常处理类
+        默认的是使用config.php 中的  // 异常处理handle类 留空使用 \think\exception\Handle
+        中的 render 方法
+
+        要使用自己自定义的异常类
+            必须'exception_handle' => 'app\lib\exception\ExceptionHandler'
+
+            在app\lib\exception\ExceptionHandler中改写 render方法
+
+8.查询构建器
+    fetchSql() 可以看到使用的sql 并不会执行sql
+
+    sql 执行自动记录日志
+        database.php 开启debug 选项 为 true
+        config.php 中配置
+            appdebug  改为true
+            'log' => [
+                    // 日志记录方式，内置 file socket 支持扩展
+                    //'type' => 'File',
+                    'type' => 'test',
+                    // 日志保存目录
+                    'path' => LOG_PATH,
+                    // 日志记录级别
+                    'level' => ['mysql'],
+                ],
+
+        在入口文件 中引入日志的初始化
+
+ 9.ORM
+    对象关系映射
+
+    配置文件config.php
+        default_return_type 默认输出的是html 可以改成json
+
+
+	关系模型 定义
+	    protected $table = '';
+
+	hasMany('关联模型','关联模型的外键','当前模型的主键id')
+
+	在一个模型中添加
+	public function items()
+    {
+        return $this->hasMany('BannerItem', 'banner_id', 'id');
+    }
+
+    控制器中使用 with方法  说明当前的这个model 有几个字段 要去关联 其他表
+
+    嵌套关联
+        A关联B  B关联C
+
+        hasMany 1对多
+        belongsTo 1对1
+        belongsToMany 多对多
+
+
+隐藏属性
+    调用hidden方法
+
+
+创建文件夹 application 目录
+    extra  创建的文件都会自动加载
+
+读取器的使用方法
+    getUrlAttr($value,$data)  get字段名Attr
+        $value  读取当前字段的值
+        $data   当前记录的所有值
+	
+	
+前置操作 
+    const user   = 16;
+    const super   = 32;
+    
+    // 1.只有second这个方法才会执行first这个前置方法 
+    protected $beforeActionList = [
+        'first' =>['only' => 'second']
+    ];
+    
+    // 2.只有second或three这个方法才会执行first这个前置方法 
+    protected $beforeAction = [
+        'first' =>['only' => 'second,three']
+    ];
+        
+    public function first(){}
+    public function second(){}
+    public function three(){}
+    
+    Address控制器 添加修改地址 要执行前置方法
+    checkPrimaryScope
+
+#订单管理
+  用户在选择商品后 向API提交包含它所选择商品的相关信息
+  API在接收收到信息后 需要检查订单相关商品的库存量
+  有库存 把订单数据存入数据库 等于下单成功了返回客户端信息 ，告诉客户端可以支付了
+  调用我们的支付接口 进行支付
+  还需要再次进行库存量检测  
+  服务器这边就可以调用微信的支付接口进行支付
+  微信会返回给我们一个支付结果 
+  成功也需要进行库存量检查
+  根据支付结果 是支付成功了才会扣库存量 失败返回一个支付失败的结果
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

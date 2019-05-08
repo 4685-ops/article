@@ -49,3 +49,9 @@ Route::get('api/:version/category/getAllCategory', 'api/v1.Category/getAllCatego
 
 Route::post('api/:version/address/createUserAddress', 'api/v1.Address/createUserAddress');
 
+/**
+ * 订单相关的接口
+ */
+
+
+Route::post('api/:version/order/placeOrder', 'api/v1.Order/placeOrder');

@@ -97,10 +97,10 @@ class BaseValidate extends Validate
     /**
      * @function   getDataByRule    得到验证器里面规定的字段数据
      *
-     * @param $data
-     * @return array
-     * @throws ParameterException
-     * @author admin
+     * @param       $data
+     * @return      array
+     * @throws      ParameterException
+     * @author      admin
      *
      * @date 2019/5/6 17:05
      */

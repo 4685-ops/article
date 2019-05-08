@@ -19,13 +19,11 @@ class Category extends Controller
     /**
      * @function   getAllCategory   得到所有的分类信息
      *
-     * @example  http://local.article.com/api/v1/category/getAllCategory
-     *
-     * @return string|\think\response\Json
+     * @return \think\response\Json
      * @throws CategoryException
      * @author admin
      *
-     * @date 2019/5/4
+     * @date 2019/5/6 18:22
      */
     public function getAllCategory()
     {
@@ -38,3 +36,4 @@ class Category extends Controller
         return json($category->hidden(['summary']));
     }
 }
+

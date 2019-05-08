@@ -10,8 +10,17 @@ use app\api\validate\AddressValidate;
 use app\lib\exception\SuccessMessage;
 use app\lib\exception\UserException;
 
-class Address
+class Address extends BaseController
 {
+    /**
+     * @var array  thinkphp5的前置方法
+     */
+    protected $beforeActionList = [
+        'checkPrimaryScope' => [
+            'only' => 'createuseraddress'
+        ]
+    ];
+
     /**
      * @function   createUserAddress    这个地方不好 用户的地址设计成1对1了 以后有时间需要修改
      *

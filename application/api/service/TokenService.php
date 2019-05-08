@@ -3,13 +3,14 @@
 
 namespace app\api\service;
 
-
 use app\api\model\User;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
 use app\lib\exception\ParameterException;
 use app\lib\exception\WeChatException;
-use think\Cache;
 use think\Exception;
 use think\Request;
+use app\lib\exception\TokenException;
 
 class TokenService
 {
@@ -103,7 +104,7 @@ class TokenService
     {
         $cacheValue = $result;
         $cacheValue['uid'] = $userId;
-        $cacheValue['scope'] = 16;
+        $cacheValue['scope'] = ScopeEnum::User;
         return $cacheValue;
     }
 
@@ -168,6 +169,13 @@ class TokenService
     protected static function getUserInfoByVar($param)
     {
         $token = Request::instance()->header('token');
+
+        if(empty($token)){
+            throw new TokenException([
+                'msg' => 'token都没有还想操作，做梦呢',
+            ]);
+        }
+
         $userInfo = self::getVerifyToken($token);
 
         return $userInfo[$param];
@@ -178,5 +186,57 @@ class TokenService
         $uid = self::getUserInfoByVar('uid');
 
         return $uid;
+    }
+
+    /**
+     * @function   needPrimaryScope 用户和管理员都可以操作的方法
+     *
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     * @author admin
+     *
+     * @date 2019/5/7 10:17
+     */
+    public static function needPrimaryScope()
+    {
+        $scope = self::getUserInfoByVar('scope');
+
+        if (!empty($scope)) {
+            if ($scope >= ScopeEnum::User) {
+                return true;
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new TokenException();
+        }
+
+    }
+
+    /**
+     * @function   needExclusiveScope   只有用户才能操作东西
+     *
+     * @return bool
+     * @throws ForbiddenException
+     * @throws TokenException
+     * @author admin
+     *
+     * @date 2019/5/7 10:17
+     */
+    public static function needExclusiveScope()
+    {
+
+        $scope = self::getUserInfoByVar('scope');
+
+        if (!empty($scope)) {
+            if ($scope == ScopeEnum::User) {
+                return true;
+            } else {
+                throw new ForbiddenException();
+            }
+        } else {
+            throw new TokenException();
+        }
     }
 }
