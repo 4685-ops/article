@@ -124,7 +124,7 @@ class OrderService
                 $pStatus ['haveStock'] = true;
             }
         }
-        
+
         return $pStatus;
     }
 }
