@@ -38,8 +38,9 @@ class Order extends BaseController
 
         $orderService = new OrderService();
 
-        $orderService->place($userId, $products);
+        $status = $orderService->place($userId, $products);
 
+        return json($status);
     }
 }
 
