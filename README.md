@@ -1,10 +1,10 @@
-1.tp5 多模块使用
-	1.早application目录 按照index目录创建
+#tp5 多模块使用
+	####在application目录 按照index目录创建
 		访问  域名/public/index.php/创建的模块名/控制器名/方法名xu
 
-2.虚拟域名的配置
+#虚拟域名的配置
 	
-3.三种url访问模式 （默认是混合的）
+#三种url访问模式 （默认是混合的）
     开启全集匹配
         route_complete_match 设为true
 	路由实例 
@@ -19,7 +19,7 @@
 
 	强制路由 参数	url_route_must  设置为true 强制使用路由
 
-4.定义路由
+#定义路由
 	Route::rule('路由表达式','路由地址','请求类型','路由参数（数组）','变量规则（数组）');
 	
 	请求类型 ： get post delete ....
@@ -57,7 +57,7 @@
     	{
         	return 'Hello world';
     	}
-5.  validate
+#validate
 		要用 validate 就要use think\Validate
 		独立验证
 
@@ -88,10 +88,10 @@
 			    dump($validate->getError());
 			}
 
-6.REST
+#REST
 
-7.异常处理
-    try {
+#异常处理
+        try {
             BannerModel::getBannerById($id);
         } catch (Exception $ex) {
             $ex = [
@@ -112,7 +112,7 @@
 
             在app\lib\exception\ExceptionHandler中改写 render方法
 
-8.查询构建器
+#查询构建器
     fetchSql() 可以看到使用的sql 并不会执行sql
 
     sql 执行自动记录日志
@@ -128,10 +128,8 @@
                     // 日志记录级别
                     'level' => ['mysql'],
                 ],
-
         在入口文件 中引入日志的初始化
-
- 9.ORM
+#ORM
     对象关系映射
 
     配置文件config.php
@@ -159,20 +157,20 @@
         belongsToMany 多对多
 
 
-隐藏属性
+#隐藏属性
     调用hidden方法
 
 
-创建文件夹 application 目录
+#创建文件夹 application 目录
     extra  创建的文件都会自动加载
 
-读取器的使用方法
+#读取器的使用方法
     getUrlAttr($value,$data)  get字段名Attr
         $value  读取当前字段的值
         $data   当前记录的所有值
 	
 	
-前置操作 
+#前置操作 
     const user   = 16;
     const super   = 32;
     
