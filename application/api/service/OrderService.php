@@ -256,4 +256,12 @@ class OrderService
 
         return $pStatus;
     }
+
+    public function checkOrderStock($orderId)
+    {
+        $this->oProducts = OrderProduct::where('order_id', '=', $orderId)->select();
+        $this->products = $this->getProductsByOrder();
+        $status = $this->getOrderStatus();
+        return $status;
+    }
 }

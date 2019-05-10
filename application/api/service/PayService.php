@@ -28,9 +28,14 @@ class PayService
     {
 
         $this->checkOrderIdValidate();
-        //4.检查库存
 
-        
+        //4.检查库存
+        $status = (new OrderService())->checkOrderStock($this->orderId);
+
+        if (!$status['pass']) {
+            return $status;
+        }
+
 
     }
 
