@@ -52,6 +52,7 @@ Route::post('api/:version/address/createUserAddress', 'api/v1.Address/createUser
 /**
  * 订单相关的接口
  */
-
-
 Route::post('api/:version/order/placeOrder', 'api/v1.Order/placeOrder');
+
+Route::post('api/:version/pay/getPreOrder', 'api/v1.Pay/getPreOrder');
+

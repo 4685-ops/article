@@ -60,9 +60,11 @@ class Address extends BaseController
         // 判断用户地址是否存在
         if (!$userInfo->address) {
             //add
+            // 没有值的时候是一个null 所有要加() 变成一个对象
             $userInfo->address()->save($data);
         } else {
             //update
+            // 有值的时候是一个对象
             $userInfo->address->save($data);
         }
 

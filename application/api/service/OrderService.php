@@ -46,6 +46,7 @@ class OrderService
         return $status;
     }
 
+    //
     public function createOrderByTrans($snap)
     {
         try {
@@ -58,12 +59,8 @@ class OrderService
             $orderModel->snap_name = $snap['snapName'];
             $orderModel->snap_items = serialize($snap['pStatus']);
             $orderModel->snap_address = $snap['snapAddress'];
-
-            $orderModel->save();
-
+            $orderModel->save();//保存订单
             $orderId = $orderModel->id;
-
-
             $create_time = $orderModel->create_time;
 
             foreach ($this->oProducts as &$val) {
@@ -71,12 +68,11 @@ class OrderService
             }
 
             $orderProductModel = new OrderProduct();
-
-            $orderProductModel->saveAll($this->oProducts);
+            $orderProductModel->saveAll($this->oProducts);//保存订单商品信息
             return [
                 'order_no' => $orderModel->order_no,
                 'order_id' => $orderId,
-                'create_time' =>strtotime($create_time)
+                'create_time' => strtotime($create_time)
             ];
         } catch (Exception $e) {
             throw $e;
@@ -94,7 +90,7 @@ class OrderService
     }
 
 
-    public function createSnap($status)
+    public function createSnap()
     {
         $snapOrder = [
             'orderPrice' => 0,

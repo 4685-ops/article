@@ -170,7 +170,7 @@ class TokenService
     {
         $token = Request::instance()->header('token');
 
-        if(empty($token)){
+        if (empty($token)) {
             throw new TokenException([
                 'msg' => 'token都没有还想操作，做梦呢',
             ]);
@@ -238,5 +238,21 @@ class TokenService
         } else {
             throw new TokenException();
         }
+    }
+
+    public static function isValidOperate($orderUid)
+    {
+        $loginUid = self::getCurrentUidByToken();
+
+        if (empty($loginUid)) {
+            throw new TokenException();
+        }
+
+        if ($loginUid != $orderUid) {
+            return false;
+        }
+
+        return true;
+
     }
 }
