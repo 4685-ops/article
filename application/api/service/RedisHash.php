@@ -191,12 +191,6 @@ class RedisHash
         return $key;
     }
 
-    /**
-     * Power: Mikkle
-     * Email：776329498@qq.com
-     * @param $key
-     * @return bool
-     */
     public function exists($key)
     {
 
