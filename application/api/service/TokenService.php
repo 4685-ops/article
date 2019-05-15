@@ -166,7 +166,7 @@ class TokenService
         return $userInfo;
     }
 
-    protected static function getUserInfoByVar($param)
+    public static function getUserInfoByVar($param)
     {
         $token = Request::instance()->header('token');
 

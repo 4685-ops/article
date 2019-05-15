@@ -5,6 +5,7 @@ namespace app\api\controller\v1;
 
 
 use app\api\service\PayService;
+use app\api\service\WxNotify;
 use app\api\validate\IDMustBePositiveInt;
 
 
@@ -24,5 +25,16 @@ class Pay extends BaseController
         return (new PayService($id))->pay();
     }
 
-
+    /**
+     * @function   receiveNotify    订单回调
+     *
+     * @author admin
+     *
+     * @date 2019/5/15 9:22
+     */
+    public function receiveNotify()
+    {
+        $wxNotify = new WxNotify();
+        $wxNotify->Handle();
+    }
 }

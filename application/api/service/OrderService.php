@@ -176,6 +176,8 @@ class OrderService
             'pStatusArray' => []
         ];
 
+
+
         foreach ($this->oProducts as $oProduct) {
             $pStatus = $this->getProductStatus($oProduct['product_id'], $oProduct['count'], $this->products);
 
@@ -257,6 +259,19 @@ class OrderService
         return $pStatus;
     }
 
+    /**
+     * @function   checkOrderStock  检查当前的订单的库存
+     *
+     * @param $orderId
+     * @return array
+     * @throws OrderException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @author admin
+     *
+     * @date 2019/5/13 15:49
+     */
     public function checkOrderStock($orderId)
     {
         $this->oProducts = OrderProduct::where('order_id', '=', $orderId)->select();
