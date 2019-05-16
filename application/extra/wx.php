@@ -19,5 +19,5 @@ return [
         "grant_type=client_credential&appid=%s&secret=%s",
     'token_salt' => "!@#$%^&*WERTYUIOADFzcxzdawq12312212",
     "token_expire_in" =>7200,
-    "img_prefix"=>'http://local.article.com'
+    "img_prefix"=>'http://local.article.com/images'
 ];
