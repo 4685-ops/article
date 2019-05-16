@@ -6,7 +6,11 @@ namespace app\api\controller\v1;
 
 use app\api\service\OrderService;
 use app\api\service\TokenService;
+use app\api\validate\IDMustBePositiveInt;
 use app\api\validate\OrderPlaceValidate;
+use app\api\validate\PagingParameterValidate;
+use app\api\model\Order as orderModel;
+use app\lib\exception\OrderException;
 
 class Order extends BaseController
 {
@@ -22,10 +26,14 @@ class Order extends BaseController
      * @function   placeOrder   用户下单接口
      *
      * @return \think\response\Json
+     * @throws \app\lib\exception\OrderException
      * @throws \app\lib\exception\ParameterException
+     * @throws \app\lib\exception\UserException
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
      * @author admin
      *
-     * @date 2019/5/15 16:10
+     * @date 2019/5/16 9:06
      */
     public function placeOrder()
     {
@@ -53,6 +61,68 @@ class Order extends BaseController
         $status = $orderService->place($userId, $products);
 
         return json($status);
+    }
+
+    /**
+     * @function   getSummaryByUser 获取 个人的订单详情
+     *
+     * @param int $page 页数
+     * @param int $size 一页显示条数
+     * @return array|\think\response\Json
+     * @throws \app\lib\exception\ParameterException
+     * @author admin
+     *
+     * @date 2019/5/16 9:52
+     */
+    public function getSummaryByUser($page = 1, $size = 15)
+    {
+        (new PagingParameterValidate())->goCheck();
+        $uid = TokenService::getCurrentUidByToken();
+
+        $pagingOrders = orderModel::getSummaryByUser($uid, $page, $size);
+
+        if ($pagingOrders->isEmpty()) {
+            return [
+                'current_page' => $pagingOrders->currentPage(),
+                'data' => []
+            ];
+        }
+
+        $data = $pagingOrders->hidden(['snap_items', 'snap_address'])
+            ->toArray();
+
+        return json(['current_page' => $pagingOrders->currentPage(),
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * @function   getDetail 得到订单id去获取详情 建议填写 订单编号
+     *
+     * @param $id   订单id
+     * @return \think\response\Json
+     * @throws OrderException
+     * @throws \app\lib\exception\ParameterException
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     * @author admin
+     *
+     * @date 2019/5/16 9:55
+     */
+    public function getDetail($id)
+    {
+        (new IDMustBePositiveInt())->goCheck();
+
+        $orderDetail = orderModel::get($id);
+
+        if (!$orderDetail) {
+            throw new OrderException([
+                'msg' => '订单不存在'
+            ]);
+        }
+
+        return json($orderDetail->hidden(['prepay_id'])->toArray());
+
     }
 }
 
